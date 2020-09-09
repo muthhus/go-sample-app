@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: build-pipeline-run
+spec:
+  pipelineRef:
+    name: build-pipeline
+  workspaces:
+    - name: shared-workspace
+      persistentvolumeclaim:
+        claimName: workspace-pvc
+  params:
+    - name: image
+      value: telekomatrix/go-sample-app:2020.09.09-19.14.58
+    - name: repo-url
+      value: https://github.com/muthhus/go-sample-app.git
+    - name: revision
+      value: master
+  serviceAccountName: build-bot
